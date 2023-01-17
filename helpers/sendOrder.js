@@ -31,7 +31,7 @@ const sendOrder = async ({ items, clientName, managerName }) => {
 
   const mailOptions = {
     from: "mega_sendgrid@ukr.net",
-    to: "mr.ropiy@gmail.com",
+    to: "pa.dubrovin@mitools.com.ua",
     subject: `${managerName}`,
     text: `Замовлення від ${managerName}, клієнт ${clientName}`,
     attachments: [{ path: `${orderPath}/${clientName}.xlsx` }],

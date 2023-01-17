@@ -2,6 +2,8 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const serverless = require("serverless-http");
+
 const sendOrder = require("./helpers/sendOrder");
 
 dotenv.config();
@@ -33,3 +35,4 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);

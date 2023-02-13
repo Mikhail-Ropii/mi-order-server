@@ -3,7 +3,10 @@ const logger = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-const sendOrder = require("./helpers/sendOrder");
+const authMiddle = require("./middlewares/authMiddle");
+const getPrice = require("./api/getPrice");
+const sendJsonPrice = require("./api/sendJsonPrice");
+const sendOrder = require("./api/sendOrder");
 
 dotenv.config();
 
@@ -19,10 +22,12 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.post("/sendOrder", (req, res) => {
+app.post("/sendorder", (req, res) => {
   sendOrder(req.body);
   res.status(200).json({ message: "Order sended" });
 });
+
+app.get("/getprice", authMiddle, getPrice, sendJsonPrice);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

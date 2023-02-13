@@ -9,14 +9,19 @@ const { MAIL_PASS } = process.env;
 const orderPath = path.join(__dirname, "../temp");
 
 const sendOrder = async ({ items, clientName, managerName }) => {
+  const cropClientName = clientName.substr(0, 20);
   const convertToXlsx = async () => {
-    const workSheet = XLSX.utils.json_to_sheet(items);
-    const workBook = XLSX.utils.book_new();
+    try {
+      const workSheet = XLSX.utils.json_to_sheet(items);
+      const workBook = XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(workBook, workSheet, `${clientName}`);
-    XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
-    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
-    XLSX.writeFile(workBook, `${orderPath}/${clientName}.xlsx`);
+      XLSX.utils.book_append_sheet(workBook, workSheet, `${cropClientName}`);
+      XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+      XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+      XLSX.writeFile(workBook, `${orderPath}/${cropClientName}.xlsx`);
+    } catch (error) {
+      console.log(error);
+    }
   };
   await convertToXlsx();
   const transporter = nodemailer.createTransport({
@@ -31,16 +36,16 @@ const sendOrder = async ({ items, clientName, managerName }) => {
 
   const mailOptions = {
     from: "mega_sendgrid@ukr.net",
-    to: "a.novak@mitools.com.ua",
+    to: "online.zakaz@mitools.com.ua",
     subject: `${managerName}`,
     text: `Замовлення від ${managerName}, клієнт ${clientName}`,
-    attachments: [{ path: `${orderPath}/${clientName}.xlsx` }],
+    attachments: [{ path: `${orderPath}/${cropClientName}.xlsx` }],
   };
 
   await transporter.sendMail(mailOptions);
 
   // Delete temp file
-  fs.unlink(`${orderPath}/${clientName}.xlsx`);
+  fs.unlink(`${orderPath}/${cropClientName}.xlsx`);
 };
 
 module.exports = sendOrder;

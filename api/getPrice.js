@@ -1,5 +1,6 @@
 const ftp = require("basic-ftp");
 const path = require("path");
+require("dotenv").config();
 
 const { FTP_ACCESS_PASS } = process.env;
 

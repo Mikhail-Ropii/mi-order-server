@@ -14,7 +14,6 @@ const getPrice = async (req, res, next) => {
       host: "ftpupload.net",
       user: "b11_33582544",
       password: FTP_ACCESS_PASS,
-      // secure: true,
       secureOptions: {
         rejectUnauthorized: false,
       },

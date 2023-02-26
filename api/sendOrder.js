@@ -44,9 +44,12 @@ const sendOrder = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-
-  // Delete temp file
-  fs.unlink(`${orderPath}/${cropClientName}.xlsx`);
+  try {
+    // Delete temp file
+    await fs.unlink(`${orderPath}/${cropClientName}.xlsx`);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = sendOrder;

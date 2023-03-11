@@ -9,7 +9,7 @@ const { MAIL_PASS } = process.env;
 const orderPath = path.join(__dirname, "../temp");
 
 const sendOrder = async (req, res, next) => {
-  const { orderItems, clientName, managerName } = req.body;
+  const { items, clientName, managerName } = req.body;
   const cropClientName = clientName.substr(0, 20);
 
   const transporter = nodemailer.createTransport({
@@ -30,7 +30,7 @@ const sendOrder = async (req, res, next) => {
     attachments: [{ path: `${orderPath}/${cropClientName}.xlsx` }],
   };
   try {
-    const workSheet = XLSX.utils.json_to_sheet(orderItems);
+    const workSheet = XLSX.utils.json_to_sheet(items);
     const workBook = XLSX.utils.book_new();
 
     XLSX.utils.book_append_sheet(workBook, workSheet, `${cropClientName}`);

@@ -11,8 +11,8 @@ const getPrice = async (req, res, next) => {
   client.ftp.verbose = true;
   try {
     await client.access({
-      host: "185.237.204.164",
-      user: "m.ropii",
+      host: "77.123.155.110",
+      user: "mitools",
       password: FTP_ACCESS_PASS,
       secureOptions: {
         rejectUnauthorized: false,
